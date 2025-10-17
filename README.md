@@ -2,11 +2,23 @@
 
 # Splitify
 
-A modern, AI-powered expense management app to track, split, and settle group payments with real-time sync and automation.
+> A modern, AI‑powered expense app for effortless group splitting and settlements.
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react[![Convex](https://img.shields.io/badge/Convex[![Clerk](https://img.shields.io/badge[![Gemini](https://img.shields.io/badge/Gemini
-[![Resend](https://img.shields.io/badge/Resend[![Inngest](https://img.shields.io/badge/Inngest
-[![License](https://img.shields.io/badge/License
+<div align="center">
+
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![Convex](https://img.shields.io/badge/Convex-Realtime%20DB-orange)](https://convex.dev/)
+[![Clerk](https://img.shields.io/badge/Clerk-Auth-6C47FF)](https://clerk.com/)
+
+[![Gemini](https://img.shields.io/badge/Gemini-AI-4285F4)](https://ai.google.dev/)
+[![Inngest](https://img.shields.io/badge/Inngest-Jobs-0EA5E9)](https://www.inngest.com/)
+[![Resend](https://img.shields.io/badge/Resend-Email-111111)](https://resend.com/)
+[![MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+</div>
+
+
 UI inspired by RoadsideCoder — thanks for the clean UX direction.
 
 ## Overview
@@ -179,4 +191,4 @@ MIT — see LICENSE
 
 --------------------------------
 
-If you want this even more minimal (single-screen), say “minimal version” and it’ll be condensed further. If you want a “production handoff” version, it can include exact file paths, example API calls, and checklists.
+
