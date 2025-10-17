@@ -312,9 +312,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For issues and questions:
 
-- **GitHub Issues:** [Create an issue](https://github.com/yourusername/splitify-automation/issues)
-- **Email:** your.email@example.com
-- **Documentation:** [Wiki](https://github.com/yourusername/splitify-automation/wiki)
+- **GitHub Issues:** [Create an issue](https://github.com/noushad999/splitify/issues)
+- **Email:** contactwithnoushad@gmail.com
+- **Documentation:** [Wiki](https://github.com/noushad999/splitify/wiki)
 
 ## 📈 Future Enhancements
 
