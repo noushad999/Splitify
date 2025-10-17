@@ -1,7 +1,10 @@
 # Splitify Automation Testing
 
-[![Python](https://img.shields.io(https://img.shields.://img.shields.io/badge/Tests
-[![License](https://img.shields.io/badge/License-
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Selenium](https://img.shields.io/badge/Selenium-4.0+-green.svg)](https://www.selenium.dev/)
+[![Test Status](https://img.shields.io/badge/Tests-Passing-brightgreen.svg)](https://github.com)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 
 > Complete end-to-end automated testing suite for Splitify expense management application using Selenium WebDriver.
 
