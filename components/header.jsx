@@ -75,11 +75,16 @@ export default function Header() {
 
           <Unauthenticated>
             <SignInButton>
-              <Button variant="ghost">Sign In</Button>
+              <Button id="test-signin" variant="ghost">
+                Sign In
+              </Button>
             </SignInButton>
 
             <SignUpButton>
-              <Button className="bg-green-600 hover:bg-green-700 border-none">
+              <Button
+                id="test-get-started"
+                className="bg-green-600 hover:bg-green-700 border-none"
+              >
                 Get Started
               </Button>
             </SignUpButton>

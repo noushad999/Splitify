@@ -11,28 +11,38 @@ export const store = mutation({
     }
 
     // Check if we've already stored this identity before.
-    // Note: If you don't want to define an index right away, you can use
-    // ctx.db.query("users")
-    //  .filter(q => q.eq(q.field("tokenIdentifier"), identity.tokenIdentifier))
-    //  .unique();
     const user = await ctx.db
       .query('users')
       .withIndex('by_token', q =>
         q.eq('tokenIdentifier', identity.tokenIdentifier)
       )
       .unique();
+
     if (user !== null) {
       // If we've seen this identity before but the name has changed, patch the value.
-      if (user.name !== identity.name) {
-        await ctx.db.patch(user._id, { name: identity.name });
+      const newName =
+        identity.name ||
+        identity.givenName ||
+        identity.email?.split('@')[0] ||
+        'Anonymous';
+      if (user.name !== newName) {
+        await ctx.db.patch(user._id, { name: newName });
       }
       return user._id;
     }
+
     // If it's a new identity, create a new `User`.
+    // Extract name with multiple fallbacks
+    const userName =
+      identity.name ||
+      identity.givenName ||
+      identity.email?.split('@')[0] ||
+      'Anonymous';
+
     return await ctx.db.insert('users', {
-      name: identity.name ?? 'Anonymous',
+      name: userName,
       tokenIdentifier: identity.tokenIdentifier,
-      email: identity.email,
+      email: identity.email ?? '',
       imageUrl: identity.pictureUrl,
     });
   },
@@ -100,7 +110,7 @@ export const searchUsers = query({
       .filter(user => user._id !== currentUser._id)
       .map(user => ({
         id: user._id,
-        name: user.name,
+        name: user.name || 'Anonymous',
         email: user.email,
         imageUrl: user.imageUrl,
       }));
