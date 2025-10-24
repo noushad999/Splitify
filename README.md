@@ -1,239 +1,191 @@
+
+
 # Splitify
 
-Splitify is a modern web application to split expenses and manage group
-payments. This repository contains the Next.js frontend, Convex server
-functions, and integration with Clerk for authentication.
+> A modern, AI‑powered expense app for effortless group splitting and settlements.
 
-This README provides a professional-level guide to understand, run, develop, and
-deploy the project.
+<div align="center">
 
-## Table of contents
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![Convex](https://img.shields.io/badge/Convex-Realtime%20DB-orange)](https://convex.dev/)
+[![Clerk](https://img.shields.io/badge/Clerk-Auth-6C47FF)](https://clerk.com/)
 
-- Project overview
-- Architecture and folders
-- Tech stack
-- Environment variables
-- Local development
-- Convex functions (local & cloud)
-- Clerk authentication
-- Deployment
-- Troubleshooting (common errors)
-- Contributing
-- Contact
+[![Gemini](https://img.shields.io/badge/Gemini-AI-4285F4)](https://ai.google.dev/)
+[![Inngest](https://img.shields.io/badge/Inngest-Jobs-0EA5E9)](https://www.inngest.com/)
+[![Resend](https://img.shields.io/badge/Resend-Email-111111)](https://resend.com/)
+[![MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## Project overview
+</div>
 
-Splitify helps groups track shared expenses, payments, and settlements. The
-project uses Next.js for the frontend and Convex for serverless functions and
-data storage. Clerk handles user authentication and issues JWTs that Convex
-validates.
 
-## Architecture and folders
+UI inspired by RoadsideCoder — thanks for the clean UX direction.
 
-- `app/` — Next.js App Router pages and layouts (React 19 server components and
-  client components).
-- `components/` — Reusable UI components and the Convex client provider.
-- `convex/` — Convex functions, schema, and auth configuration (server-side
-  business logic executed by Convex).
-- `lib/` — Utility libraries (e.g., background jobs/integrations with Inngest,
-  email builders).
-- `hooks/` — React hooks used across the app.
-- `public/` — Static assets (images, logos).
-- `convex/_generated/` — Generated Convex client/server bindings (do not edit
-  manually).
+## Overview
 
-Key files:
+Splitify helps groups track shared expenses, manage settlements, and get AI insights into monthly spending. It uses:
+- Next.js App Router + React Server Components
+- Convex for real-time data and serverless functions
+- Clerk for authentication
+- Gemini API for monthly expense analysis and insights
+- Inngest for background workflows
+- Resend for transactional emails
 
-- `convex/auth.config.js` — Convex auth configuration (OIDC issuers). Must be
-  configured for Clerk.
-- `convex/schema.js` — Convex schema definitions for tables like `users`,
-  `groups`, `expenses`, etc.
-- `components/convex-client-provider.jsx` — Wraps the app with Convex provider
-  and Clerk integration.
-- `app/layout.js` — App root layout where `ClerkProvider` and Convex client
-  provider are mounted.
+## Features
 
-## Tech stack
+- Individual and group expenses
+- Multiple split methods (equal, percentage, exact)
+- Real-time balances and settlements
+- AI monthly insights (Gemini): category breakdowns, trends, suggestions
+- Group management and invitations
+- Email notifications (Resend)
+- Background jobs for reports/reminders (Inngest)
+- Secure auth (Clerk), responsive UI (Tailwind + shadcn/ui)
 
-- Next.js 15 (App Router)
-- React 19
-- Convex (serverless functions & database)
-- Clerk (authentication)
-- Tailwind CSS
-- Inngest (background jobs)
+## Tech Stack
 
-## Environment variables
+- App: Next.js 15, React 19, TypeScript, Tailwind CSS, shadcn/ui
+- Backend: Convex (DB + functions)
+- Auth: Clerk (JWT, OIDC)
+- AI: Google Gemini API
+- Jobs: Inngest
+- Email: Resend
+- Deploy: Vercel (Edge-ready)
 
-Store runtime secrets in environment variables. Typical local variables (example
-located in `.env.local`):
+## Project Structure
 
-- CONVEX_DEPLOYMENT=dev:rightful-ox-164
-- NEXT_PUBLIC_CONVEX_URL=https://rightful-ox-164.convex.cloud
-- NEXT*PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test*...
-- CLERK*SECRET_KEY=sk_test*...
-- NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-- NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-- CLERK_JWT_ISSUER_DOMAIN=https://your-clerk-issuer.accounts.dev
-- RESEND_API_KEY=... (if using Resend for emails)
+```
+app/                     # Next.js routes (App Router)
+components/              # UI and providers (incl. Convex+Clerk)
+convex/                  # Convex schema & functions
+  _generated/            # Auto-generated bindings (do not edit)
+  auth.config.js         # OIDC issuer config for Clerk
+  schema.js              # Tables: users, groups, expenses, etc.
+lib/                     # Utils, inngest workflows, email builders
+hooks/                   # Shared React hooks
+public/                  # Static assets
+```
 
-Important notes:
+## Environment Variables
 
-- `NEXT_PUBLIC_*` variables are exposed to the browser; secrets (e.g.,
-  `CLERK_SECRET_KEY`) must not be prefixed with NEXT_PUBLIC.
-- Convex must be able to read `CLERK_JWT_ISSUER_DOMAIN` when running Convex
-  functions (either locally via a shell where the var is set or set in Convex
-  Cloud environment variables). If Convex does not see the issuer, it will
-  respond with:
-  `No auth provider found matching the given token (no providers configured).`
+Create .env.local
 
-## Local development
+```
+# Convex
+CONVEX_DEPLOYMENT=dev:your-deploy
+NEXT_PUBLIC_CONVEX_URL=https://<your>.convex.cloud
 
-1. Install dependencies
+# Clerk
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+CLERK_SECRET_KEY=sk_test_...
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+CLERK_JWT_ISSUER_DOMAIN=https://<your>.clerk.accounts.dev
 
-   npm install
+# AI
+GEMINI_API_KEY=...
 
-2. Copy `.env.local.example` (or create `.env.local`) and set the required env
-   vars (see Environment variables above).
+# Emails
+RESEND_API_KEY=re_...
 
-3. Start Convex (local functions)
+# Background jobs
+INNGEST_EVENT_KEY=...
+INNGEST_SIGNING_KEY=...
+```
 
-   In the shell where `CLERK_JWT_ISSUER_DOMAIN` is available, run:
+Notes:
+- NEXT_PUBLIC_* is browser-exposed; keep secrets without this prefix.
+- Convex must see CLERK_JWT_ISSUER_DOMAIN (locally and in Convex Cloud).
 
-   CLERK_JWT_ISSUER_DOMAIN=https://pretty-wren-31.clerk.accounts.dev npx convex
-   dev
+## Local Development
 
-   Note: Convex must load the issuer env var so it can validate Clerk JWTs.
+1) Install
+- npm install
 
-4. Start Next.js
+2) Configure env
+- copy .env.local and fill values
 
-   npm run dev
+3) Start Convex (ensure issuer is in env)
+- CLERK_JWT_ISSUER_DOMAIN=... npx convex dev
 
-5. Open http://localhost:3000
+4) Start app
+- npm run dev
 
-## Convex functions (local & cloud)
+5) Open
+- http://localhost:3000
 
-- Place Convex function files in `convex/`. These files run within Convex's
-  runtime and can use `ctx.runQuery`, `ctx.db`, etc.
-- Do not define Convex `query`/`mutation` handlers inside Next.js `app/` routes
-  — doing so will run them in the Next runtime and `ctx` will be missing
-  Convex-specific functions (e.g., `ctx.runQuery`) which causes runtime errors.
-- To call Convex functions from the Next server (SSR) environment, use the
-  Convex HTTP client:
+## Convex Functions
 
-  ```js
-  import { ConvexHttpClient } from 'convex/browser';
-  import { api } from '@/convex/_generated/api';
+- Define queries/mutations in convex/ only (not in app/).
+- Call from client via useQuery/useMutation.
+- Call from server (SSR) using ConvexHttpClient:
 
-  const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL);
-  const data = await convex.query(api.groups.getGroupOrMembers, {});
-  ```
+```ts
+import { ConvexHttpClient } from 'convex/browser';
+import { api } from '@/convex/_generated/api';
 
-## Clerk authentication
+const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+const data = await convex.query(api.groups.getGroupOrMembers, {});
+```
 
-- Clerk handles user authentication in the frontend. The app uses
-  `ClerkProvider` in `app/layout.js` and `ConvexProviderWithClerk` in
-  `components/convex-client-provider.jsx` to integrate Clerk with Convex client.
-- Convex validates JWTs using the OIDC issuer configured in
-  `convex/auth.config.js` (see file). Ensure the issuer environment variable is
-  set for the Convex runtime.
+## Authentication
+
+- ClerkProvider in app/layout.tsx
+- ConvexProviderWithClerk in components/convex-client-provider
+- OIDC issuer configured in convex/auth.config.js using CLERK_JWT_ISSUER_DOMAIN
 
 ## Deployment
 
-- Deploy Next.js using your preferred provider (Vercel, Netlify, etc.). Ensure
-  environment variables are set in the hosting environment.
-- For Convex Cloud, set the `CLERK_JWT_ISSUER_DOMAIN` in the Convex project
-  settings so Convex functions can validate Clerk tokens.
+- Next.js → Vercel
+- Convex → npx convex deploy
+- Set env vars in both Vercel and Convex Cloud
+- Use production Clerk keys and issuer
 
-## Troubleshooting (common errors)
+Post-deploy checklist:
+- Issuer set in Convex Cloud
+- NEXT_PUBLIC_CONVEX_URL updated
+- AI/Resend/Inngest keys added
 
-- Error:
-  `Failed to authenticate: "No auth provider found matching the given token (no providers configured)."`
-  - Cause: Convex could not find any configured auth providers because the
-    issuer env var was not available at runtime.
-  - Fix: Make sure `CLERK_JWT_ISSUER_DOMAIN` (or the name you use) is set in the
-    environment used by the Convex runtime (the shell running `npx convex dev`
-    or the Convex Cloud environment variables) and restart Convex.
+## Troubleshooting
 
-- Error: `ctx.runQuery is not a function`
-  - Cause: Convex `query` handlers executed inside Next.js server runtime
-    (instead of running inside Convex). `ctx.runQuery` exists only in Convex
-    function runtime.
-  - Fix: Move Convex function definitions to the `convex/` directory, and call
-    them remotely from Next using the Convex client.
+- “No auth provider found matching the given token”
+  - Cause: Issuer not present in Convex runtime
+  - Fix: Set CLERK_JWT_ISSUER_DOMAIN for convex dev/prod and restart
 
-- Error:
-  `ArgumentValidationError: Found ID <id> from table 'users', which does not match the table name in validator v.id("groups")`
-  - Cause: A user id was passed as a `groupId` argument validated as
-    `v.id('groups')`.
-  - Fix: Pass the correct id type (ensure the argument type matches
-    `v.id('<table>')`) or call the function without the mismatched id.
+- ctx.runQuery is not a function
+  - Cause: Function ran in Next.js runtime
+  - Fix: Move handlers to convex/, call via Convex client
+
+- ArgumentValidationError with v.id(...)
+  - Cause: Mismatched table id type
+  - Fix: Pass correct id type (e.g., v.id('groups') for groupId)
+
+## Scripts
+
+- npm run dev — Next.js dev server
+- npx convex dev — Convex local runtime
+- npm run build — Build app
+- npm run start — Start production build
+- npx convex deploy — Deploy Convex
 
 ## Testing
 
-- Unit tests: none included by default. If you add tests, include them under
-  `__tests__` and add scripts to `package.json`.
+- E2E automation via Selenium (Python)
+- Covers auth, individual/group expenses, settlements, AI insights
+- ~130s full run, screenshots on failure
 
-## Contributing
+Optional layout:
+testing/
+- main.py
+- requirements.txt
 
-- Use feature branches and open PRs against `main`.
-- Keep Convex functions inside the `convex/` folder. Use the generated bindings
-  under `convex/_generated/` to reference functions and values.
+## Credits
 
-## Contact
+- UI inspiration: RoadsideCoder (Piyush Garg)
+- Components: shadcn/ui
+- Icons: Lucide
 
-If you need help with deployment or auth configuration, provide the environment
-(local/dev/convex cloud) and any error logs and I can help troubleshoot further.
+## License
 
----
+MIT — see LICENSE
 
-If you want this README translated to Bengali or tailored to internal company
-standards (branding, templates), tell me which sections to emphasize and I will
-update it. This is a [Next.js](https://nextjs.org) project bootstrapped with
-[`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the
-result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates
-as you edit the file.
-
-This project uses
-[`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts)
-to automatically optimize and load [Geist](https://vercel.com/font), a new font
-family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js
-  features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out
-[the Next.js GitHub repository](https://github.com/vercel/next.js) - your
-feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the
-[Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
-from the creators of Next.js.
-
-Check out our
-[Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying)
-for more details.
